@@ -1,0 +1,103 @@
+
+https://github.com/alexlarsson/gthree/blob/master/examples/interactive.c
+
+file:///home/robert/Downloads/Gtk4-tutorial/docs/sec12.html
+
+https://docs.gtk.org/gtk4/class.EventControllerMotion.html
+
+
+
+DONE:
+
+  Read in WAD
+  Implement zoom
+  Draw level
+  Color linedefs
+  Draw vertexes
+  Draw things
+  Implement scroll/pan with mouse drag
+  Hit detection for things
+  Hit detection for vertexes
+  Hit detection for lines
+  Time the draw loop
+  Clip drawing to viewport
+  Make zoom controllble (keys? scroll wheel?)
+  Keys switch edit mode (T, V, L)
+
+TODO:
+
+  Draw grid
+
+  Allow moving vertexes
+  Allow moving things
+  Allow moving linedefs
+
+  Add side panels for details
+  Show sprites for things
+  Show textures in panel
+
+
+Edit Modes:
+
+  pan - what if nothing is selected and you drag the mouse...the viewport moves?
+  Also, WASD to move viewport?
+  things
+  verts
+  lines
+  sectors
+
+
+
+# Small Window redraw
+redraw time = 2636573 nanoseconds
+redraw time = 2995529 nanoseconds
+redraw time = 2655699 nanoseconds
+redraw time = 3667147 nanoseconds
+redraw time = 3287378 nanoseconds
+redraw time = 2389951 nanoseconds
+redraw time = 3530985 nanoseconds
+
+1 millions
+
+# After clipping code
+
+redraw time = 1408392 nanoseconds
+redraw time = 1822792 nanoseconds
+redraw time = 1165923 nanoseconds
+redraw time = 1339066 nanoseconds
+redraw time = 1538915 nanoseconds
+redraw time = 1424030 nanoseconds
+redraw time = 1522777 nanoseconds
+redraw time = 1411021 nanoseconds
+redraw time = 3836742 nanoseconds
+redraw time = 4236251 nanoseconds
+redraw time = 4040114 nanoseconds
+drag_end: 179.976562, -112.878906
+Viewport is at -1549, -674
+
+
+# Large Window redraw
+redraw time = 8898218 nanoseconds
+redraw time = 32884116 nanoseconds
+redraw time = 30433847 nanoseconds
+redraw time = 34427438 nanoseconds
+redraw time = 32205375 nanoseconds
+redraw time = 28989841 nanoseconds
+redraw time = 31378336 nanoseconds
+redraw time = 30003434 nanoseconds
+redraw time = 8446618 nanoseconds
+
+10 million
+
+# After clipping lines:
+
+redraw time = 13005065 nanoseconds
+redraw time = 13022045 nanoseconds
+redraw time = 13317310 nanoseconds
+redraw time = 12580614 nanoseconds
+redraw time = 12639715 nanoseconds
+redraw time = 12941609 nanoseconds
+redraw time = 13010572 nanoseconds
+redraw time = 13074776 nanoseconds
+redraw time = 12990809 nanoseconds
+redraw time = 12741686 nanoseconds
