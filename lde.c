@@ -23,7 +23,7 @@
 
 int vp_x = -1500, vp_y = -1000;     // upper left corner of the current viewport (in map coords)
 int selectedObjectID = -1;
-int editMode = EDIT_MODE_THINGS;
+int editMode = EDIT_MODE_PAN;
 double last_mouse_x, last_mouse_y;
 double view_scale = 1;     // map scale, > 1 zoom out, < 1 zoom in -.10 to 8.0 should be the range
 int grid_size = 100;        // grid size in map coords
@@ -332,6 +332,8 @@ int is_point_in_view(int x_size, int y_size, int point_x, int point_y) {
   }
   return 0;
 }
+
+
 // ***************
 
 /* Surface to store current scribbles */
@@ -502,17 +504,30 @@ drag_update (GtkGestureDrag *gesture,
              double          y,
              GtkWidget      *area)
 {
-  // redraw the map
+  double piv_x, piv_y;
+  piv_x = x;
+  piv_y = y;
+  
+  printf("%f  X, Y %f, %f", view_scale, x, y);
+  printf("  calced: %f, %f   %d, %d\n", (view_scale*piv_x), (view_scale*piv_y), (int)(view_scale*piv_x), (int)(view_scale*piv_y));
 
-  // edit mode switch statement....
-
-  vp_x = round(vp_x + (view_scale*(last_mouse_x - x)));
-  vp_y = round(vp_y + (view_scale*(last_mouse_y - y)));
-  draw_viewport(area);
-//  printf("drag_difference: %f, %f\n", last_mouse_x - x, last_mouse_y - y); 
-//  printf("drag_update: %f, %f\n", x, y);
+  switch (editMode) {
+    case EDIT_MODE_PAN:
+      vp_x = round(vp_x + (view_scale*(last_mouse_x - x)));
+      vp_y = round(vp_y + (view_scale*(last_mouse_y - y)));
+      break;
+    case EDIT_MODE_THINGS:
+      if (selectedObjectID > -1) {
+        things[selectedObjectID].x -= round(view_scale*(last_mouse_x - x));
+        things[selectedObjectID].y -= round(view_scale*(last_mouse_y - y));
+      }
+      break;
+    default:
+      break;
+  }
   last_mouse_x = x;
   last_mouse_y = y;
+  draw_viewport(area);
 }
 
 static void
@@ -535,12 +550,9 @@ pressed (GtkGestureClick *gesture,
          double           y,
          GtkWidget       *area)
 {
-//  clear_surface ();
+  //  clear_surface ();
   draw_viewport(area);
-
-  // if mode = 
-
-//  gtk_widget_queue_draw (area);
+  //  gtk_widget_queue_draw (area);
 }
 
 static void
