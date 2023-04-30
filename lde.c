@@ -483,7 +483,7 @@ draw_viewport (GtkWidget *widget)
 
   clock_gettime(CLOCK_MONOTONIC, &end);   /* mark the end time */
   diff = BILLION * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec;
-  printf("redraw time = %llu nanoseconds\n", (long long unsigned int)diff);
+  //printf("redraw time = %llu nanoseconds\n", (long long unsigned int)diff);
 }
 
 static void
@@ -508,8 +508,8 @@ drag_update (GtkGestureDrag *gesture,
   piv_x = x;
   piv_y = y;
   
-  printf("%f  X, Y %f, %f", view_scale, x, y);
-  printf("  calced: %f, %f   %d, %d\n", (view_scale*piv_x), (view_scale*piv_y), (int)(view_scale*piv_x), (int)(view_scale*piv_y));
+  //printf("%f  X, Y %f, %f", view_scale, x, y);
+  //printf("  calced: %f, %f   %d, %d\n", (view_scale*piv_x), (view_scale*piv_y), (int)(view_scale*piv_x), (int)(view_scale*piv_y));
 
   switch (editMode) {
     case EDIT_MODE_PAN:
@@ -520,6 +520,20 @@ drag_update (GtkGestureDrag *gesture,
       if (selectedObjectID > -1) {
         things[selectedObjectID].x -= round(view_scale*(last_mouse_x - x));
         things[selectedObjectID].y -= round(view_scale*(last_mouse_y - y));
+      }
+      break;
+    case EDIT_MODE_VERTEXES:
+      if (selectedObjectID > -1) {
+        vertexes[selectedObjectID].x -= round(view_scale*(last_mouse_x - x));
+        vertexes[selectedObjectID].y -= round(view_scale*(last_mouse_y - y));
+      }
+      break;
+    case EDIT_MODE_LINEDEFS:
+      if (selectedObjectID > -1) {
+        vertexes[linedefs[selectedObjectID].start].x -= round(view_scale*(last_mouse_x - x));
+        vertexes[linedefs[selectedObjectID].start].y -= round(view_scale*(last_mouse_y - y));
+        vertexes[linedefs[selectedObjectID].end].x -= round(view_scale*(last_mouse_x - x));
+        vertexes[linedefs[selectedObjectID].end].y -= round(view_scale*(last_mouse_y - y));
       }
       break;
     default:
@@ -538,9 +552,10 @@ drag_end (GtkGestureDrag *gesture,
 {
   last_mouse_x = 0;
   last_mouse_y = 0;
+  selectedObjectID = -1;
   draw_viewport(area);
-  printf("drag_end: %f, %f\n", x, y);
-  printf("Viewport is at %d, %d\n", vp_x, vp_y);
+  //printf("drag_end: %f, %f\n", x, y);
+  //printf("Viewport is at %d, %d\n", vp_x, vp_y);
 }
 
 static void
@@ -604,7 +619,7 @@ motion_cb (
   int thing_hit_radius = 5 * view_scale;
   int vertex_hit_radius = 3 * view_scale;  
   int redraw = 0;
-
+  // hit detection happens here
   switch (editMode) {
     case EDIT_MODE_PAN:
   //            printf("Mouse is at coords %d, %d\n", curXpos, curYpos);
